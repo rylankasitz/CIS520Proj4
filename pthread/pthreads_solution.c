@@ -9,7 +9,7 @@
 #define NUM_OF_CHARACTERS 2100
 
 #define WIKI_DATA_FILE "/homes/dan/625/wiki_dump.txt"
-#define UTILIZATION_FILE "/homes/rylankasitz/cis520/Proj4/3way-pthread/utilization_statistics.txt"
+#define UTILIZATION_FILE "/homes/rylankasitz/cis520/Proj4/pthread/utilization_statistics.txt"
 
 pthread_mutex_t mutexsum;	// mutex for line_counts
 
@@ -127,7 +127,7 @@ void print_times(struct timeval t1, struct timeval t2, struct timeval t3, struct
 	fclose(fp);
 }
 
-main(int argc, char *argv[])) {
+main(int argc, char *argv[]) {
 	int i, rc;
 	pthread_t threads[NUM_THREADS];
 	pthread_attr_t attr;
