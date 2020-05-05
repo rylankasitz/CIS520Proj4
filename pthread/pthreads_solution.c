@@ -16,19 +16,6 @@ pthread_mutex_t mutexsum;	// mutex for line_counts
 char wiki_characters[NUM_OF_ENTRIES][NUM_OF_CHARACTERS];
 int line_counts[NUM_OF_ENTRIES];
 
-/*char getRandomChar()
-{
-	int randNum = 0;
-	char randChar = ' ';
-
-	randNum = NUM_OF_ENTRIES * (rand() / (RAND_MAX + 1.0)); 	// pick number 0 < # < 25
-	randNum = randNum + 97;				// scale to 'a'
-	randChar = (char) randNum;
-
-	// printf("%c", randChar);
-	return randChar;
-}*/
-
 void init_arrays()
 {
 	int i, j; 
