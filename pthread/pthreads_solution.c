@@ -4,17 +4,18 @@
 #include <string.h>
 #include <sys/time.h>
 
-#define NUM_THREADS 32
 #define NUM_OF_ENTRIES 1000000
 #define NUM_OF_CHARACTERS 2100
 
 #define WIKI_DATA_FILE "/homes/dan/625/wiki_dump.txt"
-#define UTILIZATION_FILE "/homes/rylankasitz/cis520/Proj4/pthread/utilization_statistics.txt"
+#define UTILIZATION_FILE "/homes/rylankasitz/cis520/Proj4/pthread/stats.txt"
 
 pthread_mutex_t mutexsum;	// mutex for line_counts
 
 char wiki_characters[NUM_OF_ENTRIES][NUM_OF_CHARACTERS];
 int line_counts[NUM_OF_ENTRIES];
+
+int threads_count = 32;
 
 void init_arrays()
 {
@@ -26,7 +27,7 @@ void init_arrays()
 	{
 		for (j = 0; j < NUM_OF_CHARACTERS; j++ ) 
 		{
-			wiki_characters[i][j] = 'a';
+			wiki_characters[i][j] = 0;
 		}
 	}
 
@@ -63,10 +64,8 @@ void *count_array(void *myID)
 	int i, j;
 	int local_line_count[NUM_OF_ENTRIES];
 
-	int startPos = ((int) myID) * (NUM_OF_ENTRIES / NUM_THREADS);
-	int endPos = startPos + (NUM_OF_ENTRIES / NUM_THREADS);
-
-	printf("myID = %d startPos = %d endPos = %d \n", (int) myID, startPos, endPos);
+	int startPos = ((int) myID) * (NUM_OF_ENTRIES / threads_count);
+	int endPos = startPos + (NUM_OF_ENTRIES / threads_count);
 
 	// init local count array
 	for (i = 0; i < NUM_OF_ENTRIES; i++ ) 
@@ -101,41 +100,48 @@ void print_results()
 	}
 }
 
-void print_times(struct timeval t1, struct timeval t2, struct timeval t3, struct timeval t4, struct timeval t5)
+void print_times(struct timeval t1, struct timeval t2, struct timeval t3, struct timeval t4, struct timeval t5, struct timeval t6)
 {
 	double elapsedTime;
 
-	FILE * fp = fopen (UTILIZATION_FILE,"w");
-	fprintf(fp, "Thread count: %d\n", NUM_THREADS);
+	FILE * fp = fopen (UTILIZATION_FILE, "a");
+	fprintf(fp, "Thread count: %d\n", threads_count);
 
 	elapsedTime = (t2.tv_sec - t1.tv_sec) * 1000.0;
 	elapsedTime += (t2.tv_usec - t1.tv_usec) / 1000.0;
-	fprintf(fp, "\tTime to Init Array: %f\n", elapsedTime);
+	fprintf(fp, "\tTime to Init :\t%f\n", elapsedTime);
 
 	elapsedTime = (t3.tv_sec - t2.tv_sec) * 1000.0;
 	elapsedTime += (t3.tv_usec - t2.tv_usec) / 1000.0;
-	fprintf(fp, "\tTime to read: %f\n", elapsedTime);
+	fprintf(fp, "\tTime to read :\t%f\n", elapsedTime);
 
 	elapsedTime = (t4.tv_sec - t3.tv_sec) * 1000.0;
 	elapsedTime += (t4.tv_usec - t3.tv_usec) / 1000.0;
-	fprintf(fp, "\tTime to search: %f\n", elapsedTime);
+	fprintf(fp, "\tTime to sum :\t%f\n", elapsedTime);
 
-	elapsedTime = (t5.tv_sec - t1.tv_sec) * 1000.0;
-	elapsedTime += (t5.tv_usec - t1.tv_usec) / 1000.0;
-	fprintf(fp, "\tTotal Time: %d\n\n", elapsedTime);
+	elapsedTime = (t5.tv_sec - t4.tv_sec) * 1000.0;
+	elapsedTime += (t5.tv_usec - t4.tv_usec) / 1000.0;
+	fprintf(fp, "\tPrint time :\t%f\n\n", elapsedTime);
+
+	elapsedTime = (t6.tv_sec - t1.tv_sec) * 1000.0;
+	elapsedTime += (t6.tv_usec - t1.tv_usec) / 1000.0;
+	fprintf(fp, "\tTotal time :\t%f\n\n", elapsedTime);
 
 	fclose(fp);
 }
 
-main(int argc, char *argv[]) {
+main(int argc, char *argv[]) 
+{
+	threads_count = atoi(argv[1]);
+
 	int i, rc;
-	pthread_t threads[NUM_THREADS];
+	pthread_t threads[threads_count];
 	pthread_attr_t attr;
 	void *status;
 
-	struct timeval t1, t2, t3, t4, t5;
+	struct timeval t1, t2, t3, t4, t5, t6;
 	double elapsedTime;
-
+	
 	/* Initialize and set thread detached attribute */
 	pthread_attr_init(&attr);
 	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
@@ -148,7 +154,7 @@ main(int argc, char *argv[]) {
 	{
 		gettimeofday(&t3, NULL);
 
-		for (i = 0; i < NUM_THREADS; i++ ) 
+		for (i = 0; i < threads_count; i++ ) 
 		{
 			rc = pthread_create(&threads[i], &attr, count_array, (void *)i);
 			if (rc) 
@@ -160,7 +166,7 @@ main(int argc, char *argv[]) {
 
 		/* Free attribute and wait for the other threads */
 		pthread_attr_destroy(&attr);
-		for(i=0; i < NUM_THREADS; i++) 
+		for(i=0; i < threads_count; i++) 
 		{
 			rc = pthread_join(threads[i], &status);
 			if (rc) 
@@ -172,15 +178,16 @@ main(int argc, char *argv[]) {
 
 		gettimeofday(&t4, NULL);
 		print_results();
+		gettimeofday(&t5, NULL);
 	}
 	else 
 	{
 		return -1;
 	}
 
-	gettimeofday(&t5, NULL);
+	gettimeofday(&t6, NULL);
 
-	print_times(t1, t2, t3, t4, t5);
+	print_times(t1, t2, t3, t4, t5, t6);
 
 	pthread_mutex_destroy(&mutexsum);
 	printf("Main: program completed. Exiting.\n");

@@ -9,7 +9,7 @@ OBJS      = $(SRCS:.c=.o)			# object file
 
 default: all
 
-all: $(PROGRAM) 
+all: $(PROGRAM)
 
 $(PROGRAM): $(OBJS)
 	$(CC) -pthread $(OBJS) -o $(PROGRAM)

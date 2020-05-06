@@ -1,0 +1,48 @@
+Thread count: 16
+	Time to Init :	5686.605000
+	Time to read :	1185.772000
+	Time to sum :	568.803000
+	Print time :	184.223000
+
+	Total time :	7625.403000
+
+Thread count: 8
+	Time to Init :	5733.865000
+	Time to read :	1167.163000
+	Time to sum :	739.091000
+	Print time :	189.862000
+
+	Total time :	7829.981000
+
+Thread count: 4
+	Time to Init :	5891.499000
+	Time to read :	755.469000
+	Time to sum :	1377.382000
+	Print time :	190.126000
+
+	Total time :	8214.476000
+
+Thread count: 32
+	Time to Init :	5890.126000
+	Time to read :	970.992000
+	Time to sum :	246.821000
+	Print time :	201.433000
+
+	Total time :	7309.372000
+
+Thread count: 2
+	Time to Init :	5566.352000
+	Time to read :	1098.810000
+	Time to sum :	2635.949000
+	Print time :	201.461000
+
+	Total time :	9502.572000
+
+Thread count: 1
+	Time to Init :	5568.622000
+	Time to read :	1095.921000
+	Time to sum :	5215.989000
+	Print time :	195.070000
+
+	Total time :	12075.602000
+
