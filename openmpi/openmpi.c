@@ -8,7 +8,7 @@
 #define NUM_OF_ENTRIES 1000000
 #define NUM_OF_CHARACTERS 2100
 #define WIKI_DATA_FILE "/homes/dan/625/wiki_dump.txt"
-#define UTILIZATION_FILE "/homes/rylankasitz/cis520/Proj4/3way-pthread/utilization_statistics.txt"
+#define UTILIZATION_FILE "/homes/loenen/cis520/Proj4/3way-pthread/utilization_statistics.txt"
 
 char wiki_characters[NUM_OF_ENTRIES][NUM_OF_CHARACTERS];
 int line_counts[NUM_OF_ENTRIES];
