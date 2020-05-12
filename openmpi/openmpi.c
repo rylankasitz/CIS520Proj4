@@ -25,7 +25,7 @@ void init_arrays()
   {
     for(j= 0; j < NUM_OF_CHARACTERS; j++)
     {
-      wiki_characters[i][j] = 'f';
+      wiki_characters[i][j] = 'f'; 
     }
   }
 
