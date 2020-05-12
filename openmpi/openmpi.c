@@ -141,7 +141,7 @@ main(int argc, char *argv[])
 	init_arrays();
 	gettimeofday(&t2, NULL);
 
-	if (read_into_memory() == 0) 
+	if (read_to_memory() == 0) 
 	{
 		gettimeofday(&t3, NULL);
 
