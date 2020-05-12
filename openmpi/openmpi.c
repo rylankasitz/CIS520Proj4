@@ -25,7 +25,7 @@ void init_arrays()
   {
     for(j= 0; j < NUM_OF_CHARACTERS; j++)
     {
-      wiki_characters[i][j] = 'f';
+      wiki_characters[i][j] = 'f'; 
     }
   }
 
@@ -97,7 +97,8 @@ void *count_array()
 
 void print_results()
 {
-	for (int i = 0; i < NUM_OF_ENTRIES-1; i++) {
+  int i;
+	for (i = 0; i < NUM_OF_ENTRIES-1; i++) {
 		printf("%d-%d: %d\n", i, i+1, line_counts[i]-line_counts[i+1]);
 	}
 }
@@ -128,7 +129,8 @@ void print_times(struct timeval t1, struct timeval t2, struct timeval t3, struct
 	fclose(fp);
 }
 
-main(int argc, char *argv[])) {
+main(int argc, char *argv[])
+{
 	int i, rc;
 	void *status;
 	struct timeval t1, t2, t3, t4, t5;
@@ -139,7 +141,7 @@ main(int argc, char *argv[])) {
 	init_arrays();
 	gettimeofday(&t2, NULL);
 
-	if (read_into_memory() == 0) 
+	if (read_to_memory() == 0) 
 	{
 		gettimeofday(&t3, NULL);
 

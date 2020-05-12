@@ -100,32 +100,21 @@ void print_results()
 	}
 }
 
-void print_times(struct timeval t1, struct timeval t2, struct timeval t3, struct timeval t4, struct timeval t5, struct timeval t6)
+void print_times(struct timeval t1, struct timeval t2, struct timeval t3, struct timeval t4, struct timeval t5, struct timeval t6, char* file)
 {
 	double elapsedTime;
 
-	FILE * fp = fopen (UTILIZATION_FILE, "a");
-	fprintf(fp, "Thread count: %d\n", threads_count);
+	FILE * fp = fopen (file, "a");
 
-	elapsedTime = (t2.tv_sec - t1.tv_sec) * 1000.0;
-	elapsedTime += (t2.tv_usec - t1.tv_usec) / 1000.0;
-	fprintf(fp, "\tTime to Init :\t%f\n", elapsedTime);
-
-	elapsedTime = (t3.tv_sec - t2.tv_sec) * 1000.0;
-	elapsedTime += (t3.tv_usec - t2.tv_usec) / 1000.0;
-	fprintf(fp, "\tTime to read :\t%f\n", elapsedTime);
-
+	// Threaded section
 	elapsedTime = (t4.tv_sec - t3.tv_sec) * 1000.0;
 	elapsedTime += (t4.tv_usec - t3.tv_usec) / 1000.0;
-	fprintf(fp, "\tTime to sum :\t%f\n", elapsedTime);
+	fprintf(fp, "%f,", elapsedTime);
 
-	elapsedTime = (t5.tv_sec - t4.tv_sec) * 1000.0;
-	elapsedTime += (t5.tv_usec - t4.tv_usec) / 1000.0;
-	fprintf(fp, "\tPrint time :\t%f\n\n", elapsedTime);
-
+	// Total time
 	elapsedTime = (t6.tv_sec - t1.tv_sec) * 1000.0;
 	elapsedTime += (t6.tv_usec - t1.tv_usec) / 1000.0;
-	fprintf(fp, "\tTotal time :\t%f\n\n", elapsedTime);
+	fprintf(fp, "%f,", elapsedTime);
 
 	fclose(fp);
 }
@@ -187,10 +176,9 @@ main(int argc, char *argv[])
 
 	gettimeofday(&t6, NULL);
 
-	print_times(t1, t2, t3, t4, t5, t6);
+	print_times(t1, t2, t3, t4, t5, t6, argv[2]);
 
 	pthread_mutex_destroy(&mutexsum);
-	printf("Main: program completed. Exiting.\n");
 	pthread_exit(NULL);
 }
 
