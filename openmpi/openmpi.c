@@ -64,7 +64,8 @@ void *count_array()
 
   omp_set_num_threads(num_threads);
 
-  #pragma omp parallel private(myID, startPos, endPos, i, j){
+  #pragma omp parallel private(myID, startPos, endPos, i, j)
+  {
 
     myID = omp_get_thread_num();
     startPos = (myID) * (NUM_OF_ENTRIES / NUM_THREADS);
