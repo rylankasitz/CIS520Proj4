@@ -8,7 +8,6 @@
 #define NUM_OF_CHARACTERS 2100
 
 #define WIKI_DATA_FILE "/homes/dan/625/wiki_dump.txt"
-#define UTILIZATION_FILE "/homes/rylankasitz/cis520/Proj4/pthread/stats.txt"
 
 pthread_mutex_t mutexsum;	// mutex for line_counts
 
