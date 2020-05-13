@@ -1,7 +1,8 @@
-#include "mpi.h"
 #include <stdio.h>
+#include <mpi.h>
 #include <stdlib.h>
 
+#define WIKI_DATA_FILE "/homes/dan/625/wiki_dump.txt"
 /*
     Getting started with Beocat
     https://computing.llnl.gov/tutorials/mpi/#Getting_Started
@@ -9,17 +10,17 @@
 
 int main (int argc, char *argv[])
 {
-    /* Declarations, prototypes, etc. */
+    // Declarations, prototypes, etc.
     int numtasks, rank, dest, source, rc, count, tag=1;
     char inmsg, outmsg='x';
     MPI_Status Stat;
 
-    /* Parallel Code Begins */
+    // Parallel Code Begins 
     MPI_Init(&argc,&argv);
     MPI_Comm_size(MPI_COMM_WORLD, &numtasks);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-    /* Do work and make MP calls */
+    // Do work and make MP calls
     if (rank == 0) {
         dest = 1;
         source = 1;
@@ -33,8 +34,8 @@ int main (int argc, char *argv[])
         rc = MPI_Recv(&inmsg, 1, MPI_CHAR, source, tag, MPI_COMM_WORLD, &Stat);
         rc = MPI_Send(&outmsg, 1, MPI_CHAR, dest, tag, MPI_COMM_WORLD);
     }
-    /* Parallel code ends */
+    // Parallel code ends
 
-    /* Serial Code */
+    // Serial Code
     MPI_Finalize();
 }
