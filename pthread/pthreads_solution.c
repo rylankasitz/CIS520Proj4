@@ -66,6 +66,9 @@ void *count_array(void *myID)
 	int startPos = ((int) myID) * (NUM_OF_ENTRIES / threads_count);
 	int endPos = startPos + (NUM_OF_ENTRIES / threads_count);
 
+	if (myID == threads_count - 1)
+		endPos = NUM_OF_ENTRIES - 1;
+
 	// init local count array
 	for (i = 0; i < NUM_OF_ENTRIES; i++ ) 
 	{
