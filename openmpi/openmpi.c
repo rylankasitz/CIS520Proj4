@@ -4,7 +4,6 @@
 #include <sys/time.h>
 #include <omp.h>
 
-#define NUM_THREADS 32
 #define NUM_OF_ENTRIES 1000000
 #define NUM_OF_CHARACTERS 2100
 #define WIKI_DATA_FILE "/homes/dan/625/wiki_dump.txt"
@@ -12,6 +11,8 @@
 
 char wiki_characters[NUM_OF_ENTRIES][NUM_OF_CHARACTERS];
 int line_counts[NUM_OF_ENTRIES];
+
+int num_threads = 32;
 
 //Initialize both arrays 
 void init_arrays()
@@ -59,14 +60,14 @@ void *count_array()
 	int i, j, startPos, endPos, myID;
 	int local_line_count[NUM_OF_ENTRIES];
 
-  omp_set_num_threads(NUM_THREADS);
+  omp_set_num_threads(num_threads);
 
   #pragma omp parallel private(myID, startPos, endPos, i, j)
   {
 
     myID = omp_get_thread_num();
-    startPos = (myID) * (NUM_OF_ENTRIES / NUM_THREADS);
-    endPos = startPos + (NUM_OF_ENTRIES / NUM_THREADS);
+    startPos = (myID) * (NUM_OF_ENTRIES / num_threads);
+    endPos = startPos + (NUM_OF_ENTRIES / num_threads);
 
     printf("myID = %d startPos = %d endPos = %d \n", (int) myID, startPos, endPos);
 
@@ -100,39 +101,33 @@ void print_results()
 	}
 }
 
-void print_times(struct timeval t1, struct timeval t2, struct timeval t3, struct timeval t4, struct timeval t5)
+void print_times(struct timeval t1, struct timeval t2, struct timeval t3, struct timeval t4, struct timeval t5, char* file)
 {
 	double elapsedTime;
   
-	FILE * fp = fopen (UTILIZATION_FILE,"w");
-	fprintf(fp, "Thread count: %d\n", NUM_THREADS);
+	FILE * fp = fopen (file,"w");
 
-	elapsedTime = (t2.tv_sec - t1.tv_sec) * 1000.0;
-	elapsedTime += (t2.tv_usec - t1.tv_usec) / 1000.0;
-	fprintf(fp, "\tTime to Init Array: %f\n", elapsedTime);
-
-	elapsedTime = (t3.tv_sec - t2.tv_sec) * 1000.0;
-	elapsedTime += (t3.tv_usec - t2.tv_usec) / 1000.0;
-	fprintf(fp, "\tTime to read: %f\n", elapsedTime);
-
+  // Threaded time
 	elapsedTime = (t4.tv_sec - t3.tv_sec) * 1000.0;
 	elapsedTime += (t4.tv_usec - t3.tv_usec) / 1000.0;
-	fprintf(fp, "\tTime to search: %f\n", elapsedTime);
+  fprintf(fp, "%f,", elapsedTime);
 
+  // Total time
 	elapsedTime = (t5.tv_sec - t1.tv_sec) * 1000.0;
 	elapsedTime += (t5.tv_usec - t1.tv_usec) / 1000.0;
-	fprintf(fp, "\tTotal Time: %d\n\n", elapsedTime);
+  fprintf(fp, "%f,", elapsedTime);
 
 	fclose(fp);
 }
 
-main()
+main(int argc, char *argv[])
 {
 	int i, rc;
 	void *status;
 	struct timeval t1, t2, t3, t4, t5;
 	double elapsedTime;
 
+  num_threads = atoi(argv[1]);
 
 	gettimeofday(&t1, NULL);
 	init_arrays();
@@ -155,8 +150,7 @@ main()
 
 	gettimeofday(&t5, NULL);
 
-	print_times(t1, t2, t3, t4, t5);
+	print_times(t1, t2, t3, t4, t5, argv[2]);
 
 	printf("Main: program completed. Exiting.\n");
-	//pthread_exit(NULL);
 }

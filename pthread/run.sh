@@ -3,7 +3,8 @@
 FILE_LOCATION="/homes/rylankasitz/cis520/Proj4/pthread"
 OUTPUT_LOCATION=$FILE_LOCATION/"output_files"
 RUNTIMES_FILE=$FILE_LOCATION/"runtimes.csv"
-THREADS=( 20 18 16 14 12 10 8 6 4 2 1 )
+THREADS=( 32 20 18 16 14 12 10 8 6 4 2 1 )
+MACHINES=( 16 14 12 10 8 6 4 2 1)
 ITERATIONS=$1
 
 cd $FILE_LOCATION
@@ -27,7 +28,7 @@ echo "$line,Average Threaded Section,Average Total" >> $RUNTIMES_FILE
 for t in ${THREADS[@]}
 do
     echo "Running for $t threads"
-    sbatch --cpus-per-task=$t --output=$OUTPUT_LOCATION/$t"_threads.output" $FILE_LOCATION/pthreads_solution.sh $ITERATIONS $RUNTIMES_FILE
+    sbatch --cpus-per-task=$t --output=$OUTPUT_LOCATION/$t"_threads.output" $FILE_LOCATION/pthreads_solution.sh $ITERATIONS $RUNTIMES_FILE $t
 done
 
 echo "Waiting for iterations to finish"

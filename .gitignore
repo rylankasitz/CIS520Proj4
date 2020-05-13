@@ -1,1 +1,3 @@
 pthread/output_files/*
+openmpi/output_files/*
+mpi/output_files/*
