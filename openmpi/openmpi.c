@@ -23,7 +23,7 @@ void init_arrays()
   {
     for(j= 0; j < NUM_OF_CHARACTERS; j++)
     {
-      wiki_characters[i][j] = 'f'; 
+      wiki_characters[i][j] = 0; 
     }
   }
 
@@ -69,8 +69,6 @@ void *count_array()
     startPos = (myID) * (NUM_OF_ENTRIES / num_threads);
     endPos = startPos + (NUM_OF_ENTRIES / num_threads);
 
-    printf("myID = %d startPos = %d endPos = %d \n", (int) myID, startPos, endPos);
-
     // init local count array
     for (i = 0; i < NUM_OF_ENTRIES; i++ ) 
     {
@@ -105,7 +103,7 @@ void print_times(struct timeval t1, struct timeval t2, struct timeval t3, struct
 {
 	double elapsedTime;
   
-	FILE * fp = fopen (file,"w");
+	FILE * fp = fopen (file,"a");
 
   // Threaded time
 	elapsedTime = (t4.tv_sec - t3.tv_sec) * 1000.0;

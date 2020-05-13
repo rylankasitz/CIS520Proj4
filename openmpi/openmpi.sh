@@ -10,7 +10,7 @@ touch $file
 i=0
 while [ $i -lt $1 ]
 do
-    /homes/loenen/cis520/CIS520Proj4/openmpi/openmpi $SLURM_CPUS_ON_NODE $file
+    $dir/openmpi $SLURM_CPUS_ON_NODE $file
     let "i++"
 done
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FILE_LOCATION="/homes/loenen/cis520/CIS520Proj4/openmpi"
+FILE_LOCATION="/homes/rylankasitz/cis520/Proj4/openmpi"
 OUTPUT_LOCATION=$FILE_LOCATION/"output_files"
 RUNTIMES_FILE=$FILE_LOCATION/"openmp_runtimes.csv"
 THREADS=( 20 18 16 14 12 10 8 6 4 2 1 )

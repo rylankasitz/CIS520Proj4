@@ -10,7 +10,7 @@ touch $file
 i=0
 while [ $i -lt $1 ]
 do
-    /homes/rylankasitz/cis520/Proj4/pthread/pthreads_solution $3 $file
+    $dir/pthreads_solution $3 $file
     let "i++"
 done
 
