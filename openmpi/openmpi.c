@@ -13,9 +13,6 @@
 char wiki_characters[NUM_OF_ENTRIES][NUM_OF_CHARACTERS];
 int line_counts[NUM_OF_ENTRIES];
 
-
-int num_threads = 8;
-
 //Initialize both arrays 
 void init_arrays()
 {
@@ -62,7 +59,7 @@ void *count_array()
 	int i, j, startPos, endPos, myID;
 	int local_line_count[NUM_OF_ENTRIES];
 
-  omp_set_num_threads(num_threads);
+  omp_set_num_threads(NUM_THREADS);
 
   #pragma omp parallel private(myID, startPos, endPos, i, j)
   {
