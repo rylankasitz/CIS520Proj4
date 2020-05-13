@@ -126,7 +126,7 @@ void print_times(struct timeval t1, struct timeval t2, struct timeval t3, struct
 	fclose(fp);
 }
 
-main(int argc, char *argv[])
+main()
 {
 	int i, rc;
 	void *status;

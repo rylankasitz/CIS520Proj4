@@ -1,6 +1,6 @@
 Thread count: 32
-	Time to Init Array: 9322.303000
-	Time to read: 4437.019000
-	Time to search: 384.884000
-	Total Time: 2137824880
+	Time to Init Array: 5912.181000
+	Time to read: 1183.840000
+	Time to search: 177.889000
+	Total Time: 2134991120
 

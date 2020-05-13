@@ -1,0 +1,37 @@
+gcc    -c -o openmpi.o openmpi.c
+gcc -shared -fPIC -fopenmp openmpi.o			 -o openmpi					
+/usr/bin/ld: openmpi.o: relocation R_X86_64_32S against undefined symbol `wiki_characters' can not be used when making a shared object; recompile with -fPIC
+/usr/bin/ld: final link failed: Nonrepresentable section on output
+collect2: error: ld returned 1 exit status
+make: *** [openmpi] Error 1
+Running for 20 threads
+Submitted batch job 9534039
+Running for 18 threads
+Submitted batch job 9534040
+Running for 16 threads
+Submitted batch job 9534041
+Running for 14 threads
+Submitted batch job 9534042
+Running for 12 threads
+Submitted batch job 9534043
+Running for 10 threads
+Submitted batch job 9534044
+Running for 8 threads
+Submitted batch job 9534045
+Running for 6 threads
+Submitted batch job 9534046
+Running for 4 threads
+Submitted batch job 9534047
+Running for 2 threads
+Submitted batch job 9534048
+Running for 1 threads
+Submitted batch job 9534049
+Waiting for iterations to finish
+cat: /homes/loenen/cis520/CIS520Proj4/openmpi/1temp.csv: No such file or directory
+cat: /homes/loenen/cis520/CIS520Proj4/openmpi/20temp.csv: No such file or directory
+cat: /homes/loenen/cis520/CIS520Proj4/openmpi/2temp.csv: No such file or directory
+cat: /homes/loenen/cis520/CIS520Proj4/openmpi/4temp.csv: No such file or directory
+cat: /homes/loenen/cis520/CIS520Proj4/openmpi/6temp.csv: No such file or directory
+cat: /homes/loenen/cis520/CIS520Proj4/openmpi/8temp.csv: No such file or directory
+cat: /homes/loenen/cis520/CIS520Proj4/openmpi/temp.csv: No such file or directory
+rm: cannot remove ‘/homes/loenen/cis520/CIS520Proj4/openmpi/*temp.csv’: No such file or directory
