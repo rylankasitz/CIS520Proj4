@@ -57,17 +57,21 @@ int read_to_memory()
 
 void *count_array()
 {
-	int i, j, startPos, endPos, myID;
-	int local_line_count[NUM_OF_ENTRIES];
+	int myID;
 
   omp_set_num_threads(num_threads);
 
-  #pragma omp parallel private(myID, startPos, endPos, i, j)
+  #pragma omp parallel private(myID)
   {
+    int i, j, startPos, endPos;
+    int local_line_count[NUM_OF_ENTRIES];
 
     myID = omp_get_thread_num();
     startPos = (myID) * (NUM_OF_ENTRIES / num_threads);
     endPos = startPos + (NUM_OF_ENTRIES / num_threads);
+
+    if (myID == num_threads - 1)
+      endPos = NUM_OF_ENTRIES - 1;
 
     // init local count array
     for (i = 0; i < NUM_OF_ENTRIES; i++ ) 
