@@ -1,5 +1,3 @@
 #!/bin/bash
-
-# COMMANDS
-mpicc tmp.c -o tmp.exe
-mpirun -np 4 ./tmp.exe
+mpicc -o tmp tmp.c
+./tmp
