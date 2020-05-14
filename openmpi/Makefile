@@ -12,7 +12,7 @@ default: all
 all: $(PROGRAM) 
 
 $(PROGRAM): $(OBJS)
-	$(CC) $(OBJS) -o $(PROGRAM)  -fopenmp 
+	$(CC) $(OBJS) -o $(PROGRAM) -fopenmp 
 
 clean:
 	/bin/rm -f $(OBJS) $(PROGRAM)

@@ -13,6 +13,8 @@ int line_counts[NUM_OF_ENTRIES];
 
 int num_threads = 32;
 
+void *count(int myID);
+
 //Initialize both arrays 
 void init_arrays()
 {
@@ -54,19 +56,17 @@ int read_to_memory()
     fclose(file);
 }
 
-void *count_array(int myID)
+void *count_array()
 {
-  int i, j, startPos, endPos;
+  int i, j, startPos, endPos, myID;
   int local_line_count[NUM_OF_ENTRIES];
 
   #pragma omp private(myID, startPos, endPos, i, j, local_line_count)
   {
-    startPos = (myID) * (NUM_OF_ENTRIES / num_threads);
-    endPos = startPos + (NUM_OF_ENTRIES / num_threads);
+    startPos = (myID) * (NUM_OF_ENTRIES / omp_get_num_threads());
+    endPos = startPos + (NUM_OF_ENTRIES / omp_get_num_threads());
 
-    printf("myID = %d startPos = %d endPos = %d \n", myID, startPos, endPos);
-
-    if (myID == 20 - 1)
+    if (myID == omp_get_num_threads() - 1)
       endPos = NUM_OF_ENTRIES - 1;
 
     // init local count array
@@ -95,7 +95,7 @@ void print_results()
 {
   int i;
 	for (i = 0; i < NUM_OF_ENTRIES-1; i++) {
-		//printf("%d-%d: %d\n", i, i+1, line_counts[i]-line_counts[i+1]);
+		printf("%d-%d: %d\n", i, i+1, line_counts[i]-line_counts[i+1]);
 	}
 }
 
@@ -134,9 +134,10 @@ main(int argc, char *argv[])
 		gettimeofday(&t3, NULL);
 
     omp_set_num_threads(num_threads);
-    #pragma omp parallel 
-    {
-		  count_array(omp_get_thread_num());
+
+    #pragma omp parallel
+    { 
+      count_array(omp_get_thread_num());
     }
 
     gettimeofday(&t4, NULL);
