@@ -48,7 +48,7 @@ int read_to_memory()
     /* Read each wiki line into memory. */
     int line_num = 0;
     char line[NUM_OF_CHARACTERS];
-    while(fgets(line, NUM_OF_CHARACTERS, file) != NULL)
+    while(fgets(line, NUM_OF_CHARACTERS, file) != NULL && line_num < NUM_OF_ENTRIES)
     {
         strcpy(wiki_characters[line_num], line);
         line_num++;

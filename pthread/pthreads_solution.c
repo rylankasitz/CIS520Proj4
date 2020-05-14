@@ -49,7 +49,7 @@ int read_into_memory()
 	int line_num = 0;
   	char line[NUM_OF_CHARACTERS];
 
-	while(fgets(line, NUM_OF_CHARACTERS, file) != NULL)
+	while(fgets(line, NUM_OF_CHARACTERS, file) != NULL && line_num < NUM_OF_ENTRIES)
 	{
 		strcpy(wiki_characters[line_num], line);
 		line_num++;

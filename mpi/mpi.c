@@ -146,7 +146,9 @@ int main(int argc, char* argv[])
 
 	gettimeofday(&t5, NULL);
     
-    print_times(t1, t2, t3, t4, t5, argv[2]);
+    if(rank == 0) {
+        print_times(t1, t2, t3, t4, t5, argv[2]);
+    }
 	
     return 0;
 }
