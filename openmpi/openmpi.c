@@ -7,7 +7,6 @@
 #define NUM_OF_ENTRIES 1000000
 #define NUM_OF_CHARACTERS 2100
 #define WIKI_DATA_FILE "/homes/dan/625/wiki_dump.txt"
-#define UTILIZATION_FILE "/homes/loenen/cis520/CIS520Proj4/openmpi/utilization_statistics.txt"
 
 char wiki_characters[NUM_OF_ENTRIES][NUM_OF_CHARACTERS];
 int line_counts[NUM_OF_ENTRIES];
@@ -55,22 +54,19 @@ int read_to_memory()
     fclose(file);
 }
 
-void *count_array()
+void *count_array(int myID)
 {
-	int myID;
+  int i, j, startPos, endPos;
+  int local_line_count[NUM_OF_ENTRIES];
 
-  omp_set_num_threads(num_threads);
-
-  #pragma omp parallel private(myID)
+  #pragma omp private(myID, startPos, endPos, i, j, local_line_count)
   {
-    int i, j, startPos, endPos;
-    int local_line_count[NUM_OF_ENTRIES];
-
-    myID = omp_get_thread_num();
     startPos = (myID) * (NUM_OF_ENTRIES / num_threads);
     endPos = startPos + (NUM_OF_ENTRIES / num_threads);
 
-    if (myID == num_threads - 1)
+    printf("myID = %d startPos = %d endPos = %d \n", myID, startPos, endPos);
+
+    if (myID == 20 - 1)
       endPos = NUM_OF_ENTRIES - 1;
 
     // init local count array
@@ -99,7 +95,7 @@ void print_results()
 {
   int i;
 	for (i = 0; i < NUM_OF_ENTRIES-1; i++) {
-		printf("%d-%d: %d\n", i, i+1, line_counts[i]-line_counts[i+1]);
+		//printf("%d-%d: %d\n", i, i+1, line_counts[i]-line_counts[i+1]);
 	}
 }
 
@@ -107,7 +103,7 @@ void print_times(struct timeval t1, struct timeval t2, struct timeval t3, struct
 {
 	double elapsedTime;
   
-	FILE * fp = fopen (file,"a");
+	FILE * fp = fopen (file, "a");
 
   // Threaded time
 	elapsedTime = (t4.tv_sec - t3.tv_sec) * 1000.0;
@@ -124,8 +120,6 @@ void print_times(struct timeval t1, struct timeval t2, struct timeval t3, struct
 
 main(int argc, char *argv[])
 {
-	int i, rc;
-	void *status;
 	struct timeval t1, t2, t3, t4, t5;
 	double elapsedTime;
 
@@ -139,7 +133,11 @@ main(int argc, char *argv[])
 	{
 		gettimeofday(&t3, NULL);
 
-		count_array();
+    omp_set_num_threads(num_threads);
+    #pragma omp parallel 
+    {
+		  count_array(omp_get_thread_num());
+    }
 
     gettimeofday(&t4, NULL);
 

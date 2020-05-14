@@ -4,16 +4,16 @@
 #SBATCH --constraint=elves
 
 dir=$(dirname $2)
-file=$dir/$SLURM_CPUS_ON_NODE".csv"
+file=$dir/$3".csv"
 touch $file
 
 i=0
 while [ $i -lt $1 ]
 do
-    $dir/openmpi $SLURM_CPUS_ON_NODE $file
+    $dir/openmpi $3 $file
     let "i++"
 done
 
 fcontents=$(cat $file)
 rm $file
-echo "$SLURM_CPUS_ON_NODE,$fcontents" >> $dir/$SLURM_CPUS_ON_NODE"temp.csv"
+echo "$3,$fcontents" >> $dir/$3"temp.csv"
